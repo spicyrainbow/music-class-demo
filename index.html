@@ -1,0 +1,61 @@
+<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
+<script>
+  /* global nn */
+const filename = 'electric-piano-chords.mp3'
+let music
+const samples = {
+  q: {offset: 15.925925925925926, duration: 3.722222222222223, color: 'red'},
+ w: {offset: 11.944444444444445, duration: 3.814814814814815, color: 'green'},
+  e: {offset: 7.981481481481482, duration: 3.648148148148148, color: 'pink'}
+     }
+
+
+async function play (e) {
+    const s = samples[e.key]
+  nn.get('body').css('background', s.color)
+  music.currentTime = s.offset
+  music.play()
+  await nn.sleep(s.duration * 1000)
+  music.pause()
+}
+  
+  
+  
+  
+  // async function remix () {
+  //   music.volume = nn.random(0.25, 0.5)
+  //   music.currentTime = nn.random(0, music.duration)
+  //   nn.get('body').css('background',nn.randomColor)
+  //   await nn.sleep(500)
+  //   remix()
+      
+  // }
+
+function setup () {
+  
+  music = nn.create('audio')
+  .set({
+    src:filename,
+    // controls: true,
+    // bg music
+    loop: true 
+  })
+  .addto('body')
+  // .on('loadeddata', () => music.play())
+  // .on('loaddata', remix)
+  }
+  
+  nn.on('load', setup)
+  nn.on('keydown', play)
+  
+  // function animate () {
+  //   requestAnimationFrame(animate)
+  //   console.log(music.currentTime)
+  // }
+  
+  // nn.on('load', setup)
+  //  nn.on('load', animate)
+
+  
+
+</script>
